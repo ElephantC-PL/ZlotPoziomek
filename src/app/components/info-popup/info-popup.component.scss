@@ -1,0 +1,12 @@
+:host {
+    display: flex;        
+
+    .message {
+        color: var(--normal-text);
+
+        &.error {
+            color: var(--error);
+            font-weight: bold;
+        }
+    } 
+}

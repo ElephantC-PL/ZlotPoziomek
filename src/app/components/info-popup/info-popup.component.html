@@ -1,0 +1,10 @@
+<div matSnackBarLabel>
+    @for(message of data; track message){
+        <div class="message" [ngClass]="{'error': message.isError}">{{message.text}}</div>
+    }          
+</div>
+<div matSnackBarActions>
+    <button mat-icon-button color="primary" matSnackBarAction (click)="snackBarRef.dismiss()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
