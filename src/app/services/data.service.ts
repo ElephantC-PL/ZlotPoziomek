@@ -52,7 +52,7 @@ export class DataService {
     return result;
   }
 
-  public async getData(isPreview: boolean): Promise<void>{
+  public async getData(isPreview: boolean): Promise<void>{    
     const versions = isPreview ? [2,3] : [3];
     const sections = [1,2,3,4,5,6,7,8,9,10];
     const dbData = await lastValueFrom( this._dbComponents.getSimpleTexts(sections, versions));

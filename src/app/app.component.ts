@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { DbDataService } from './services/db-data.service';
 import { CommonModule } from '@angular/common';
 import { BannerComponent } from "./components/sections/banner/banner.component";
@@ -38,12 +38,16 @@ import { SectionWrapperDirective } from './components/base-section/section-wrapp
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{
-  private _isPreview = true; 
+export class AppComponent implements OnInit{  
+  private _isPreview = false;
   private _data = inject(DataService);
+  private _route = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    this._data.getData(this._isPreview);
-  }
+    setTimeout(()=>{this._data.getData(this._isPreview)},1);
 
+    this._route.queryParams.subscribe(params => {     
+      this._isPreview = params['preview'] === 'true';          
+    });    
+  }
 }

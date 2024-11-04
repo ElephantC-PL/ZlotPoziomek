@@ -4,7 +4,6 @@ import { SimpleText } from '../models/db-data.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ProcessService } from './process.service';
 
-const baseUrl = 'http://localhost:3000/api/';
 //const baseUrl = 'http://adamczyk.stronawcal.pl/elephantc-b/api/tutorials';
 
 @Injectable({
@@ -17,7 +16,8 @@ export class DbDataService {
   private _http = inject(HttpClient);
   private _process = inject(ProcessService);
 
-  private _simpleTextApi = 'http://localhost:3000/api/simple-texts'; 
+  private _simpleTextApi = 'http://localhost:3000/simple-texts'; 
+  //private _simpleTextApi = 'http://api.zlotpoziomek.pl/simple-texts'; 
 
 
   public getSimpleTexts(sectionIds?: number[], versionIds?: number[]): Observable<SimpleText[]|undefined> {
