@@ -6,7 +6,7 @@ import { HasPropertyPipe } from '../../../pipes/has-property.pipe';
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [HasPropertyPipe],
+  imports: [HasPropertyPipe, SectionLayoutComponent,],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })

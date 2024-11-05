@@ -6,7 +6,7 @@ import { HasPropertyPipe } from '../../../pipes/has-property.pipe';
 @Component({
   selector: 'app-banner',
   standalone: true,
-  imports: [HasPropertyPipe],
+  imports: [HasPropertyPipe, SectionLayoutComponent,],
   templateUrl: './banner.component.html',
   styleUrl: './banner.component.scss'
 })

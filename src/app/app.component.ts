@@ -14,7 +14,6 @@ import { RegistrationComponent } from './components/sections/registration/regist
 import { TShirtsComponent } from './components/sections/t-shirts/t-shirts.component';
 import { ContackComponent } from './components/sections/contack/contack.component';
 import { DataService } from './services/data.service';
-import { SectionWrapperDirective } from './components/base-section/section-wrapper.directive';
 
 @Component({
   selector: 'app-root',
@@ -32,8 +31,7 @@ import { SectionWrapperDirective } from './components/base-section/section-wrapp
     RoutesComponent,
     RegistrationComponent,
     TShirtsComponent,
-    ContackComponent,
-    SectionWrapperDirective
+    ContackComponent  
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

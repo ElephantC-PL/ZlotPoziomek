@@ -1,6 +1,6 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { SimpleText } from '../models/db-data.model';
-import { lastValueFrom, Subject } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { ContentType, Content } from '../models/db-data.model';
+import { Subject } from 'rxjs';
 import { DbDataService } from './db-data.service';
 
 export interface ArrayOfArrays { 
@@ -20,7 +20,7 @@ export class DataService {
   private _loadedFromDb = new Subject<void>();
 
   private _mapMultiVersion(
-    data: SimpleText[],
+    data: Content[],
     versionIds: number[]
   ): ArrayOfArrays { 
     const filteredData = data.filter(item => versionIds.includes(item.versionId)); 
@@ -38,7 +38,7 @@ export class DataService {
   }
 
   private _mapOneVersion(
-    data: SimpleText[],
+    data: Content[],
     versionId: number
   ): ArrayOfArrays {
     const filteredData = data.filter(item => item.versionId === versionId);
@@ -53,10 +53,12 @@ export class DataService {
   }
 
   public async getData(isPreview: boolean): Promise<void>{    
+    const types = [ContentType.SimpleText, ContentType.Color];
     const versions = isPreview ? [2,3] : [3];
     const sections = [1,2,3,4,5,6,7,8,9,10];
-    const dbData = await lastValueFrom( this._dbComponents.getSimpleTexts(sections, versions));
-
+     
+    const dbData = await this._dbComponents.getAllData(types, sections, versions)
+    
     if(dbData){
       const data = isPreview ? this._mapMultiVersion(dbData, [2,3]) : this._mapOneVersion(dbData, 3)
       this.data = data;    

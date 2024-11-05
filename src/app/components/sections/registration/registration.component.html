@@ -1,2 +1,4 @@
-<span>registration</span>
-@if(data | hasProperty:'title' ){<h2>{{data['title']}}</h2>}
+<app-section-layout [text]="text" [bg]="bg"> 
+    <span>registration</span>
+    @if(data | hasProperty:'title' ){<h2>{{data['title']}}</h2>}
+</app-section-layout>

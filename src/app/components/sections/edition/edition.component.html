@@ -1,4 +1,6 @@
-<span>edition</span>
-@if(data | hasProperty:'title' ){<h2>{{data['title']}}</h2>}
-@if(data | hasProperty:'paragraph' ){<p>{{data['paragraph']}}</p>}
-@if(data | hasProperty:'link' ){<a>{{data['link']}}</a>}
+<app-section-layout [text]="text" [bg]="bg">
+    <span>edition</span>
+    @if(data | hasProperty:'title' ){<h2>{{data['title']}}</h2>}
+    @if(data | hasProperty:'paragraph' ){<p>{{data['paragraph']}}</p>}
+    @if(data | hasProperty:'link' ){<a>{{data['link']}}</a>}
+</app-section-layout>

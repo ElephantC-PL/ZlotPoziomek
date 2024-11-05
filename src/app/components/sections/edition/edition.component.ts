@@ -1,12 +1,12 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 import { BaseSectionComponent } from '../../base-section/base-section.component';
-import { SectionWrapperDirective } from '../../base-section/section-wrapper.directive';
 import { HasPropertyPipe } from '../../../pipes/has-property.pipe';
+import { SectionLayoutComponent } from '../../section-layout/section-layout.component';
 
 @Component({
   selector: 'app-edition',
   standalone: true,
-  imports: [HasPropertyPipe],
+  imports: [HasPropertyPipe, SectionLayoutComponent ],
   templateUrl: './edition.component.html',
   styleUrl: './edition.component.scss', 
 })

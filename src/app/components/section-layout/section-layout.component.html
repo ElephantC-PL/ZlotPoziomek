@@ -1,5 +1,5 @@
-<section>
+<section [ngStyle]="{'background-color': bg, 'color': text}">
     <div class="container">        
-        @if(template){<ng-container *ngTemplateOutlet="template"></ng-container>}
+        <ng-content></ng-content>
     </div>
 </section>

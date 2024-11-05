@@ -6,7 +6,7 @@ import { HasPropertyPipe } from '../../../pipes/has-property.pipe';
 @Component({
   selector: 'app-program',
   standalone: true,
-  imports: [HasPropertyPipe],
+  imports: [HasPropertyPipe, SectionLayoutComponent,],
   templateUrl: './program.component.html',
   styleUrl: './program.component.scss'
 })
