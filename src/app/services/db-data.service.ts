@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, combineLatest, Observable, tap, throwError } from 'rxjs';
+import { catchError, combineLatest, Observable, tap, throwError, map } from 'rxjs';
 import { ContentType, Content } from '../models/db-data.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ProcessService } from './process.service';
@@ -18,6 +18,15 @@ export class DbDataService {
 
   private _apiUrl = 'http://localhost:3000'; 
   //private _simpleTextApi = 'http://api.zlotpoziomek.pl'; 
+
+  private prepereDataValueFromDb(type: ContentType, data: any[]): any {   
+    switch (type) {      
+      case ContentType.RichText:
+        return data.map(x=> ({...x, value: JSON.parse(x.value)}))     
+      default:
+        return data;
+    }   
+  }
 
   public async getAllData(types: ContentType[], sectionIds?: number[], versionIds?: number[]): Promise<Content[] | undefined> {
     return new Promise<Content[] | undefined>((resolve) => {
@@ -42,6 +51,9 @@ export class DbDataService {
     if(versionIds) body.versionId = versionIds;       
 
     return this._http.post<Content[]>(`${this._apiUrl}/${type.toString()}`, body, { headers: this._headers }).pipe(
+      map((result) => {      
+        return this.prepereDataValueFromDb(type, result);
+      }),
       tap(() => {        
         this._process.taskEnd(_taskId, `Udało się pobrać "${type.toString()}" z bazy danych.`);
       }),

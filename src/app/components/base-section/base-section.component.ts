@@ -18,7 +18,7 @@ export class BaseSectionComponent {
 
   protected async _initData(sectionId: number ): Promise<void> {
     this.data = await this._data.getSectionData(sectionId);  
-    this.text = this.data['text-color'];
-    this.bg = this.data['bg-color'];   
+    this.text = this.data['text-color'] as string;
+    this.bg = this.data['bg-color'] as string;   
   }
 }

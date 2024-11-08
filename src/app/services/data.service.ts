@@ -4,11 +4,11 @@ import { Subject } from 'rxjs';
 import { DbDataService } from './db-data.service';
 
 export interface ArrayOfArrays { 
-  [sectionId: number]: { [location: string]: string | undefined }
+  [sectionId: number]: { [location: string]: string | object | undefined }
 }
 
 export interface SectionData {
-  [location: string]: string | undefined; 
+  [location: string]: string | object | undefined; 
 }
 
 @Injectable({
@@ -25,7 +25,7 @@ export class DataService {
   ): ArrayOfArrays { 
     const filteredData = data.filter(item => versionIds.includes(item.versionId)); 
     filteredData.sort((a, b) => versionIds.indexOf(a.versionId) - versionIds.indexOf(b.versionId));    
-    const result: { [sectionId: number]: { [location: string]: string | undefined } } = {};  
+    const result: { [sectionId: number]: { [location: string]: string |object | undefined } } = {};  
     filteredData.forEach(item => {
       if (!result[item.sectionId]) {
         result[item.sectionId] = {}; 
@@ -42,7 +42,7 @@ export class DataService {
     versionId: number
   ): ArrayOfArrays {
     const filteredData = data.filter(item => item.versionId === versionId);
-    const result: { [sectionId: number]: { [location: string]: string | undefined } } = {};
+    const result: { [sectionId: number]: { [location: string]: string | object | undefined } } = {};
     filteredData.forEach(item => {
       if (!result[item.sectionId]) {
         result[item.sectionId] = {}; 
@@ -53,7 +53,7 @@ export class DataService {
   }
 
   public async getData(isPreview: boolean): Promise<void>{    
-    const types = [ContentType.SimpleText, ContentType.Color];
+    const types = [ContentType.SimpleText, ContentType.Color, ContentType.RichText];
     const versions = isPreview ? [2,3] : [3];
     const sections = [1,2,3,4,5,6,7,8,9,10];
      

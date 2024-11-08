@@ -27,4 +27,14 @@ export interface Color {
     updatedAt: string
 }
 
-export type Content = (SimpleText|Color);
+export interface RichText {
+    id: number,    
+    sectionId: number,
+    versionId: number,
+    location: string
+    value?: object|string,
+    createdAt: string,
+    updatedAt: string
+}
+
+export type Content = (SimpleText|Color|RichText);
