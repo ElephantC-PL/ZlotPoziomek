@@ -4,12 +4,10 @@ import { Subject } from 'rxjs';
 import { DbDataService } from './db-data.service';
 
 export interface ArrayOfArrays { 
-  [sectionId: number]: { [location: string]: string | object | undefined }
+  [sectionId: number]: SectionData[];
 }
 
-export interface SectionData {
-  [location: string]: string | object | undefined; 
-}
+export type SectionData = string | object | undefined;
 
 @Injectable({
   providedIn: 'root'
@@ -25,13 +23,13 @@ export class DataService {
   ): ArrayOfArrays { 
     const filteredData = data.filter(item => versionIds.includes(item.versionId)); 
     filteredData.sort((a, b) => versionIds.indexOf(a.versionId) - versionIds.indexOf(b.versionId));    
-    const result: { [sectionId: number]: { [location: string]: string |object | undefined } } = {};  
+    const result: ArrayOfArrays = {};  
     filteredData.forEach(item => {
       if (!result[item.sectionId]) {
-        result[item.sectionId] = {}; 
+        result[item.sectionId] = []; 
       }    
-      if (!result[item.sectionId][item.location]) {
-        result[item.sectionId][item.location] = item.value;
+      if (!result[item.sectionId][item.locationId]) {
+        result[item.sectionId][item.locationId] = item.value;
       }
     });  
     return result;
@@ -42,12 +40,12 @@ export class DataService {
     versionId: number
   ): ArrayOfArrays {
     const filteredData = data.filter(item => item.versionId === versionId);
-    const result: { [sectionId: number]: { [location: string]: string | object | undefined } } = {};
+    const result: ArrayOfArrays = {};
     filteredData.forEach(item => {
       if (!result[item.sectionId]) {
-        result[item.sectionId] = {}; 
+        result[item.sectionId] = []; 
       }
-      result[item.sectionId][item.location] = item.value;
+      result[item.sectionId][item.locationId] = item.value;
     });
     return result;
   }
@@ -66,8 +64,8 @@ export class DataService {
     }   
   }  
 
-  public getSectionData(sectionId: number): Promise<SectionData>{       
-    return new Promise<SectionData>((resolve) => {      
+  public getSectionData(sectionId: number): Promise<SectionData[]>{       
+    return new Promise<SectionData[]>((resolve) => {      
       this._loadedFromDb.subscribe({
         next: () => {         
           return resolve(this.data[sectionId])}        

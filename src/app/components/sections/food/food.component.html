@@ -1,5 +1,5 @@
 <app-section-layout [text]="text" [bg]="bg"> 
     <span>food</span>
-    @if(data | hasProperty:'title' ){<h2>{{data['title']}}</h2>}
-    @if(data | hasProperty:'content' ){<quill-view [content]="data['content']" format="object"></quill-view>}
+    @if(data[1]){<h2>{{data[1]}}</h2>}
+    @if(data[4]){<quill-view [content]="data[4]" format="object"></quill-view>}
 </app-section-layout>
