@@ -15,5 +15,5 @@ export class HowToGetComponent extends BaseSectionComponent {
   constructor(){
     super()    
     this._initData(2);
-  }  
+  }
 }

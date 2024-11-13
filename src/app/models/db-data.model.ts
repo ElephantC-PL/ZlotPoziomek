@@ -28,7 +28,7 @@ export interface Color {
 }
 
 export interface RichText {
-    id: number,    
+    id: number,
     sectionId: number,
     versionId: number,
     locationId: number,   

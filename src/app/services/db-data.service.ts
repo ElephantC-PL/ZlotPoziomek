@@ -3,8 +3,7 @@ import { catchError, combineLatest, Observable, tap, throwError, map } from 'rxj
 import { ContentType, Content } from '../models/db-data.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ProcessService } from './process.service';
-
-//const baseUrl = 'http://adamczyk.stronawcal.pl/elephantc-b/api/tutorials';
+import { ApiUrl } from '../settings';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +15,7 @@ export class DbDataService {
   private _http = inject(HttpClient);
   private _process = inject(ProcessService);
 
-  private _apiUrl = 'http://localhost:3000'; 
-  //private _simpleTextApi = 'http://api.zlotpoziomek.pl'; 
+  private _apiUrl = ApiUrl;
 
   private prepereDataValueFromDb(type: ContentType, data: any[]): any {   
     switch (type) {      
