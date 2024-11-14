@@ -1,3 +1,5 @@
+import type DeltaType from 'quill-delta';
+
 export enum ContentType {
     SimpleText = 'simple-text',
     Color = 'color',
@@ -7,34 +9,23 @@ export enum ContentType {
     Collection = 'collection'
 }
 
-export interface SimpleText {
-    id: number,    
-    sectionId: number,
-    versionId: number,
-    locationId: number,  
-    value?: string,
-    createdAt: string,
-    updatedAt: string
-}
-
-export interface Color {
+export interface Content {
     id: number,    
     sectionId: number,
     versionId: number,
     locationId: number,   
-    value?: string,
+    value?: ContentValue,
     createdAt: string,
     updatedAt: string
 }
 
-export interface RichText {
-    id: number,
-    sectionId: number,
-    versionId: number,
-    locationId: number,   
-    value?: object|string,
-    createdAt: string,
-    updatedAt: string
+export interface ImageValue {
+    width: number,
+    height: number,
+    fileName: string,
+    alt: string,
 }
 
-export type Content = (SimpleText|Color|RichText);
+export type RichTextValue = DeltaType;
+
+export type ContentValue = (string|RichTextValue|ImageValue);

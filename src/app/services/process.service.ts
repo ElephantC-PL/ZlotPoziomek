@@ -23,6 +23,7 @@ export class ProcessService {
   private _tasksToShow: Message[] = [];  
   private _queueFinishedSubject = new Subject<void>();
   private _nextProcess = false;
+  private _timer?: ReturnType<typeof setTimeout>
 
   private overlayRef?: OverlayRef; 
 
@@ -31,6 +32,7 @@ export class ProcessService {
     this.overlayRef = this.overlay.create({ hasBackdrop: true, positionStrategy: overlayConfig });
     const loader = new ComponentPortal(LoaderComponent);
     this.overlayRef.attach(loader);
+    this._timeoutFinish();
   }
 
   private _endLoader(): void{
@@ -60,6 +62,7 @@ export class ProcessService {
   }
 
   private _finishProcess() {     
+    clearTimeout(this._timer);
     this._endLoader();
     this._openInfoPopup(this._tasksToShow);   
     this._resetProcess();
@@ -93,5 +96,12 @@ export class ProcessService {
           return resolve(true)}        
       });
     });
+  }
+
+  private _timeoutFinish():void {
+    this._timer = setTimeout(()=> {
+      this._tasksToShow.push({id: -1, text: "Zapytanie trwało zbyt długo", isError: true});
+      this._finishProcess()
+    }, 10000)    
   }
 }

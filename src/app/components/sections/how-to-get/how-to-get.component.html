@@ -2,5 +2,5 @@
     <span>how to get</span>
     @if(data[1]){<h2>{{data[1]}}</h2>}
     @if(data[4]){<quill-view [content]="data[4]" format="object"></quill-view>}
-    @if(data[5]){<img [src]="imgPath + data[5]"/>}
+    @if(image[5]){<img [src]="imgPath + image[5].fileName" [alt]="image[5].alt"/>}
 </app-section-layout>

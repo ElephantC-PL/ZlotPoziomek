@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ContentType, Content } from '../models/db-data.model';
+import { ContentType, Content, ContentValue } from '../models/db-data.model';
 import { Subject } from 'rxjs';
 import { DbDataService } from './db-data.service';
 
@@ -7,7 +7,7 @@ export interface ArrayOfArrays {
   [sectionId: number]: SectionData[];
 }
 
-export type SectionData = string | object | undefined;
+export type SectionData = ContentValue | undefined;
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,7 @@ export class DataService {
   }
 
   public async getData(isPreview: boolean): Promise<void>{    
-    const types = [ContentType.SimpleText, ContentType.Color, ContentType.RichText];
+    const types = [ContentType.SimpleText, ContentType.Color, ContentType.RichText, ContentType.Image];
     const versions = isPreview ? [2,3] : [3];
     const sections = [1,2,3,4,5,6,7,8,9,10];
      
@@ -65,7 +65,7 @@ export class DataService {
   }  
 
   public getSectionData(sectionId: number): Promise<SectionData[]>{       
-    return new Promise<SectionData[]>((resolve) => {      
+    return new Promise<SectionData[]>((resolve) => {
       this._loadedFromDb.subscribe({
         next: () => {         
           return resolve(this.data[sectionId])}        

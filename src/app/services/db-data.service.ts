@@ -17,15 +17,6 @@ export class DbDataService {
 
   private _apiUrl = ApiUrl;
 
-  private prepereDataValueFromDb(type: ContentType, data: any[]): any {   
-    switch (type) {      
-      case ContentType.RichText:
-        return data.map(x=> ({...x, value: JSON.parse(x.value)}))     
-      default:
-        return data;
-    }   
-  }
-
   public async getAllData(types: ContentType[], sectionIds?: number[], versionIds?: number[]): Promise<Content[] | undefined> {
     return new Promise<Content[] | undefined>((resolve) => {
       const observables = types?.map(x =>  this._getDataByType(x, sectionIds, versionIds))
@@ -48,10 +39,7 @@ export class DbDataService {
     if(sectionIds) body.sectionId = sectionIds;
     if(versionIds) body.versionId = versionIds;       
 
-    return this._http.post<Content[]>(`${this._apiUrl}/${type.toString()}`, body, { headers: this._headers }).pipe(
-      map((result) => {      
-        return this.prepereDataValueFromDb(type, result);
-      }),
+    return this._http.post<Content[]>(`${this._apiUrl}/${type.toString()}`, body, { headers: this._headers }).pipe(    
       tap(() => {        
         this._process.taskEnd(_taskId, `Udało się pobrać "${type.toString()}" z bazy danych.`);
       }),
