@@ -7,7 +7,7 @@ import { QuillViewComponent } from 'ngx-quill';
 @Component({
   selector: 'app-edition',
   standalone: true,
-  imports: [HasPropertyPipe, SectionLayoutComponent, QuillViewComponent ],
+  imports: [SectionLayoutComponent, QuillViewComponent ],
   templateUrl: './edition.component.html',
   styleUrl: './edition.component.scss', 
 })

@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { DataService, SectionData } from '../../services/data.service';
-import { HasPropertyPipe } from '../../pipes/has-property.pipe';
 import { SectionLayoutComponent } from '../section-layout/section-layout.component';
 import { ApiUrl } from '../../settings';
-import { ImageValue } from '../../models/db-data.model';
+import { ImageValue, FileValue } from '../../models/db-data.model';
 
 @Component({
   selector: 'app-base-section',
   standalone: true,
-  imports: [SectionLayoutComponent, HasPropertyPipe],
+  imports: [SectionLayoutComponent],
   templateUrl: './base-section.component.html',
   styleUrl: './base-section.component.scss'
 })
@@ -17,6 +16,7 @@ export class BaseSectionComponent {
   private _apiUrl = ApiUrl;
   public data: SectionData[] = [];  
   public image: ImageValue[] = [];  
+  public file: FileValue[] = []; 
   public text?: string;
   public bg?: string;
   public imgPath: string = `${this._apiUrl}/img/`
@@ -27,9 +27,13 @@ export class BaseSectionComponent {
     this.bg = this.data[2] as string;
 
     this.data = this.data.map((x, i) => {
-      const image =  x as unknown as ImageValue; 
+      const image = x as unknown as ImageValue; 
       if(image.width && image.height && image.fileName && image.alt){
         this.image[i] = image;
+      } 
+      const file = x as unknown as FileValue; 
+      if(file.fileName && file.linkText ){
+        this.file[i] = file;
       } 
       return x   
     })

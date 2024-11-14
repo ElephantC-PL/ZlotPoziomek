@@ -5,6 +5,7 @@ export enum ContentType {
     Color = 'color',
     Image = 'image',
     RichText = 'rich-text',
+    File = 'file',
     HtmlWidget = 'html-widget',
     Collection = 'collection'
 }
@@ -26,6 +27,11 @@ export interface ImageValue {
     alt: string,
 }
 
+export interface FileValue {    
+    fileName: string,
+    linkText: string,
+}
+
 export type RichTextValue = DeltaType;
 
-export type ContentValue = (string|RichTextValue|ImageValue);
+export type ContentValue = (string|RichTextValue|ImageValue|FileValue);

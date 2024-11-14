@@ -51,7 +51,7 @@ export class DataService {
   }
 
   public async getData(isPreview: boolean): Promise<void>{    
-    const types = [ContentType.SimpleText, ContentType.Color, ContentType.RichText, ContentType.Image];
+    const types = [ContentType.SimpleText, ContentType.Color, ContentType.RichText, ContentType.Image, ContentType.File];
     const versions = isPreview ? [2,3] : [3];
     const sections = [1,2,3,4,5,6,7,8,9,10];
      

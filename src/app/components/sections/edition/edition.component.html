@@ -3,4 +3,5 @@
     @if(data[1]){<h2>{{data[1]}}</h2>}
     @if(data[4]){<quill-view [content]="data[4]" format="object"></quill-view>}
     @if(image[5]){<img [src]="imgPath + image[5].fileName" [alt]="image[5].alt"/>}
+    @if(file[6]){<a [href]="imgPath + file[6].fileName" [download]="file[6].fileName">{{file[6].linkText}}</a>}
 </app-section-layout>
