@@ -14,6 +14,6 @@ import { QuillViewComponent } from 'ngx-quill';
 export class FoodComponent extends BaseSectionComponent {  
   constructor(){
     super()    
-    this._initData(4);
+    this.sectionId.set(4);
   }  
 }

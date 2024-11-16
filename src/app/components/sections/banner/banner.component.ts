@@ -13,6 +13,6 @@ import { HasPropertyPipe } from '../../../pipes/has-property.pipe';
 export class BannerComponent extends BaseSectionComponent {  
   constructor(){
     super()    
-    // this._initData(1);
+    //this.sectionId.set();
   }  
 }

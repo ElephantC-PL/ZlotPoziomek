@@ -14,6 +14,6 @@ import { QuillViewComponent } from 'ngx-quill';
 export class RegistrationComponent extends BaseSectionComponent {  
   constructor(){
     super()    
-    this._initData(7);
+    this.sectionId.set(7);
   }  
 }

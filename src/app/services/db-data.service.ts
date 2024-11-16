@@ -10,16 +10,16 @@ import { ApiUrl } from '../settings';
 })
 export class DbDataService {
   private _taskId = 1;
-  private _headers = new HttpHeaders({'Content-Type': 'application/json'});
+  private _headers = new HttpHeaders({'Content-Type': 'application/json'});  
 
   private _http = inject(HttpClient);
   private _process = inject(ProcessService);
 
   private _apiUrl = ApiUrl;
 
-  public async getAllData(types: ContentType[], sectionIds?: number[], versionIds?: number[]): Promise<Content[] | undefined> {
+  public async getAllData(types: ContentType[], sectionIds?: number[], statusIds?: number[], variantIds?: number[]): Promise<Content[] | undefined> {
     return new Promise<Content[] | undefined>((resolve) => {
-      const observables = types?.map(x =>  this._getDataByType(x, sectionIds, versionIds))
+      const observables = types?.map(x =>  this._getDataByType(x, sectionIds, statusIds, variantIds))
       if(observables){
         combineLatest(observables).subscribe({
           next: (content) => {
@@ -32,19 +32,20 @@ export class DbDataService {
   }
 
 
-  private _getDataByType(type: ContentType, sectionIds?: number[], versionIds?: number[]): Observable<Content[]|undefined> {
+  private _getDataByType(type: ContentType, sectionIds?: number[], statusIds?: number[], variantIds?: number[]): Observable<Content[]|undefined> {
     const _taskId = this._taskId++;
     this._process.taskStart(_taskId);
-    const body: {sectionId?: number[], versionId?: number[]} = {}
+    const body: {sectionId?: number[], statusId?: number[], variantId?: number[]} = {}
     if(sectionIds) body.sectionId = sectionIds;
-    if(versionIds) body.versionId = versionIds;       
+    if(statusIds) body.statusId = statusIds; 
+    if(variantIds) body.variantId = variantIds;       
 
     return this._http.post<Content[]>(`${this._apiUrl}/${type.toString()}`, body, { headers: this._headers }).pipe(    
       tap(() => {        
         this._process.taskEnd(_taskId, `Udało się pobrać "${type.toString()}" z bazy danych.`);
       }),
       catchError((error) => {               
-        this._process.taskEnd(_taskId, `Podczas pobierania "${type.toString()}" za bazy danych wystąpił błąd: "${error.message}".`, true);
+        this._process.taskEnd(_taskId, `Podczas pobierania "${type.toString()}" z bazy danych wystąpił błąd: "${error.message}".`, true);
         return throwError(() => error)
       })
     );

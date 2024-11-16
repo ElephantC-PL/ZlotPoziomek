@@ -14,6 +14,6 @@ import { QuillViewComponent } from 'ngx-quill';
 export class ProgramComponent extends BaseSectionComponent {  
   constructor(){
     super()    
-    this._initData(5);
+    this.sectionId.set(5);
   }  
 }

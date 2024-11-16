@@ -13,7 +13,7 @@ import { QuillViewComponent } from 'ngx-quill';
 })
 export class AccommodationComponent extends BaseSectionComponent {  
   constructor(){
-    super()    
-    this._initData(3);
+    super()       
+    this.sectionId.set(3);
   }  
 }

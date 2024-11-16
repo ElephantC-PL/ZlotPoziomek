@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { ContentType, Content, ContentValue } from '../models/db-data.model';
 import { Subject } from 'rxjs';
 import { DbDataService } from './db-data.service';
@@ -13,16 +13,23 @@ export type SectionData = ContentValue | undefined;
   providedIn: 'root'
 })
 export class DataService {  
-  private _dbComponents = inject(DbDataService); 
-  public data: ArrayOfArrays = {}; 
-  private _loadedFromDb = new Subject<void>();
+  private _dbComponents = inject(DbDataService);     
+  public variants = [1,2,3,4,5,6,7,8,9].reverse();
+  public currentVariant = 9;
+  public allData: WritableSignal<ArrayOfArrays> = signal({});
+  public isPreview = false;
+
+  public changeVariant(variantId: number):void{
+    this.currentVariant = variantId;  
+    this.getData();
+  }
 
   private _mapMultiVersion(
     data: Content[],
-    versionIds: number[]
+    statusIds: number[]
   ): ArrayOfArrays { 
-    const filteredData = data.filter(item => versionIds.includes(item.versionId)); 
-    filteredData.sort((a, b) => versionIds.indexOf(a.versionId) - versionIds.indexOf(b.versionId));    
+    const filteredData = data.filter(item => statusIds.includes(item.statusId)); 
+    filteredData.sort((a, b) => statusIds.indexOf(a.statusId) - statusIds.indexOf(b.statusId));    
     const result: ArrayOfArrays = {};  
     filteredData.forEach(item => {
       if (!result[item.sectionId]) {
@@ -37,9 +44,9 @@ export class DataService {
 
   private _mapOneVersion(
     data: Content[],
-    versionId: number
+    statusId: number
   ): ArrayOfArrays {
-    const filteredData = data.filter(item => item.versionId === versionId);
+    const filteredData = data.filter(item => item.statusId === statusId);
     const result: ArrayOfArrays = {};
     filteredData.forEach(item => {
       if (!result[item.sectionId]) {
@@ -50,26 +57,24 @@ export class DataService {
     return result;
   }
 
-  public async getData(isPreview: boolean): Promise<void>{    
+  public async getData(): Promise<void>{    
     const types = [ContentType.SimpleText, ContentType.Color, ContentType.RichText, ContentType.Image, ContentType.File];
-    const versions = isPreview ? [2,3] : [3];
+    const versions = this.isPreview ? [2,3] : [3];
     const sections = [1,2,3,4,5,6,7,8,9,10];
      
-    const dbData = await this._dbComponents.getAllData(types, sections, versions)
+    const dbData = await this._dbComponents.getAllData(types, sections, versions, [this.currentVariant])
     
     if(dbData){
-      const data = isPreview ? this._mapMultiVersion(dbData, [2,3]) : this._mapOneVersion(dbData, 3)
-      this.data = data;    
-      this._loadedFromDb.next();  
+      const data = this.isPreview ? this._mapMultiVersion(dbData, [2,3]) : this._mapOneVersion(dbData, 3)
+      this.allData.set(data);     
     }   
   }  
 
-  public getSectionData(sectionId: number): Promise<SectionData[]>{       
-    return new Promise<SectionData[]>((resolve) => {
-      this._loadedFromDb.subscribe({
-        next: () => {         
-          return resolve(this.data[sectionId])}        
-      });
-    });
-  }
+  //public getSectionData(sectionId: number): Promise<SectionData[]>{       
+    // return new Promise<SectionData[]>((resolve) => {      
+    //     next: () => {         
+    //       return resolve(this.data[sectionId])}        
+    //   });
+    // });
+  //}
 }

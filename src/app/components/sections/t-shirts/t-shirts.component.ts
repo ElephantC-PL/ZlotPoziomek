@@ -14,6 +14,6 @@ import { QuillViewComponent } from 'ngx-quill';
 export class TShirtsComponent extends BaseSectionComponent {  
   constructor(){
     super()    
-    this._initData(8);
+    this.sectionId.set(8);
   }  
 }

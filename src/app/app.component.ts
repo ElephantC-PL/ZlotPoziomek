@@ -14,11 +14,13 @@ import { RegistrationComponent } from './components/sections/registration/regist
 import { TShirtsComponent } from './components/sections/t-shirts/t-shirts.component';
 import { ContackComponent } from './components/sections/contack/contack.component';
 import { DataService } from './services/data.service';
+import { HeaderComponent } from './components/header/header.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    HeaderComponent,
     RouterOutlet, 
     CommonModule, 
     BannerComponent, 
@@ -36,16 +38,15 @@ import { DataService } from './services/data.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{  
-  private _isPreview = false;
+export class AppComponent implements OnInit{    
   private _data = inject(DataService);
   private _route = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    setTimeout(()=>{this._data.getData(this._isPreview)},1);
+    setTimeout(()=>{this._data.getData()},1);
 
     this._route.queryParams.subscribe(params => {     
-      this._isPreview = params['preview'] === 'true';          
+      this._data.isPreview = params['preview'] === 'true';          
     });    
   }
 }

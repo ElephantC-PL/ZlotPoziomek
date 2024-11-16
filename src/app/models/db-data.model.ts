@@ -13,7 +13,8 @@ export enum ContentType {
 export interface Content {
     id: number,    
     sectionId: number,
-    versionId: number,
+    statusId: number,
+    variantId: number,
     locationId: number,   
     value?: ContentValue,
     createdAt: string,
@@ -35,3 +36,5 @@ export interface FileValue {
 export type RichTextValue = DeltaType;
 
 export type ContentValue = (string|RichTextValue|ImageValue|FileValue);
+
+export const VariantNames = ['','2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];  
