@@ -18,7 +18,8 @@ export interface Content {
     locationId: number,   
     value?: ContentValue,
     createdAt: string,
-    updatedAt: string
+    updatedAt: string,
+    type?: ContentType
 }
 
 export interface ImageValue {

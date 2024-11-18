@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
-import { Message } from '../../services/process.service';
+import { Message } from '../../../models/app.model';
 
 @Component({
   selector: 'app-info-popup',

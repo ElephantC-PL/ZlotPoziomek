@@ -1,19 +1,14 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { ContentType, Content, ContentValue } from '../models/db-data.model';
-import { Subject } from 'rxjs';
+import { ContentType, Content } from '../models/db-data.model';
 import { DbDataService } from './db-data.service';
+import { ArrayOfArrays } from '../models/app.model';
 
-export interface ArrayOfArrays { 
-  [sectionId: number]: SectionData[];
-}
-
-export type SectionData = ContentValue | undefined;
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {  
-  private _dbComponents = inject(DbDataService);     
+  private _dbComponents = inject(DbDataService);
   public variants = [1,2,3,4,5,6,7,8,9].reverse();
   public currentVariant = 9;
   public allData: WritableSignal<ArrayOfArrays> = signal({});
@@ -32,14 +27,16 @@ export class DataService {
     filteredData.sort((a, b) => statusIds.indexOf(a.statusId) - statusIds.indexOf(b.statusId));    
     const result: ArrayOfArrays = {};  
     filteredData.forEach(item => {
-      if (!result[item.sectionId]) {
-        result[item.sectionId] = []; 
-      }    
-      if (!result[item.sectionId][item.locationId]) {
-        result[item.sectionId][item.locationId] = item.value;
+      if(item.type && item.value){   
+        if (!result[item.sectionId]) {
+          result[item.sectionId] = []; 
+        }    
+        if (!result[item.sectionId][item.locationId]) {
+          result[item.sectionId][item.locationId] = {type: item.type, value: item.value};
+        }
       }
     });  
-    return result;
+    return result ?? [];
   }
 
   private _mapOneVersion(
@@ -49,10 +46,12 @@ export class DataService {
     const filteredData = data.filter(item => item.statusId === statusId);
     const result: ArrayOfArrays = {};
     filteredData.forEach(item => {
-      if (!result[item.sectionId]) {
-        result[item.sectionId] = []; 
+      if(item.type && item.value){   
+        if (!result[item.sectionId]) {
+          result[item.sectionId] = []; 
+        }    
+        result[item.sectionId][item.locationId] = {type: item.type, value: item.value};
       }
-      result[item.sectionId][item.locationId] = item.value;
     });
     return result;
   }
@@ -69,12 +68,4 @@ export class DataService {
       this.allData.set(data);     
     }   
   }  
-
-  //public getSectionData(sectionId: number): Promise<SectionData[]>{       
-    // return new Promise<SectionData[]>((resolve) => {      
-    //     next: () => {         
-    //       return resolve(this.data[sectionId])}        
-    //   });
-    // });
-  //}
 }

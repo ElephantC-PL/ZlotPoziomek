@@ -40,7 +40,13 @@ export class DbDataService {
     if(statusIds) body.statusId = statusIds; 
     if(variantIds) body.variantId = variantIds;       
 
-    return this._http.post<Content[]>(`${this._apiUrl}/${type.toString()}`, body, { headers: this._headers }).pipe(    
+    return this._http.post<Content[]>(`${this._apiUrl}/${type.toString()}`, body, { headers: this._headers }).pipe(
+      map(contents =>
+        contents.map(content => ({
+          ...content,
+          type: type
+        }))
+      ),    
       tap(() => {        
         this._process.taskEnd(_taskId, `Udało się pobrać "${type.toString()}" z bazy danych.`);
       }),

@@ -1,7 +1,7 @@
 @if(data()){
     <app-section-layout [text]="data().string[3]" [bg]="data().string[2]">
-        <span>contack</span>
-      @if(data().string[1]){<h2>{{data().string[1]}}</h2>}
+        <span>{{name}}</span>
+        @if(data().string[1]){<h2>{{data().string[1]}}</h2>}
         @if(data().richText[4]){<quill-view [content]="data().richText[4]" format="object"></quill-view>}
         @if(data().image[5]){<img [src]="imgPath + data().image[5].fileName" [alt]="data().image[5].alt"/>}
         @if(data().file[6]){<a [href]="imgPath + data().file[6].fileName" [download]="data().file[6].fileName">{{data().file[6].linkText}}</a>}

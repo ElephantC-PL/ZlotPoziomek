@@ -3,14 +3,9 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
-import { InfoPopupComponent } from '../components/info-popup/info-popup.component';
-import { LoaderComponent } from '../components/loader/loader.component';
-
-export interface Message {
-  id: number,
-  text: string,
-  isError?: boolean
-}
+import { InfoPopupComponent } from '../components/organisms/info-popup/info-popup.component';
+import { LoaderComponent } from '../components/atoms/loader/loader.component';
+import { Message } from '../models/app.model';
 
 @Injectable({
   providedIn: 'root'
