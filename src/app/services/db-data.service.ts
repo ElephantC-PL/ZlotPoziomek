@@ -31,6 +31,15 @@ export class DbDataService {
     });
   }
 
+  getAllDataAsObservable(types: ContentType[], sectionIds?: number[], statusIds?: number[], variantIds?: number[]): Observable<Content[]|undefined> {
+    const observables: Observable<Content[]|undefined>[] = types?.map(type =>  this._getDataByType(type, sectionIds, statusIds, variantIds));
+    return combineLatest(observables).pipe(
+      map(contents =>
+        contents.filter(x => x !== undefined).flatMap(x => x) as Content[]
+      )
+    )    
+  }
+
 
   private _getDataByType(type: ContentType, sectionIds?: number[], statusIds?: number[], variantIds?: number[]): Observable<Content[]|undefined> {
     const _taskId = this._taskId++;

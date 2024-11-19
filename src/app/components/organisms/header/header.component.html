@@ -1,7 +1,7 @@
 <mat-toolbar class="header">
-    <button mat-button [matMenuTriggerFor]="edition">{{variantNames[data.currentVariant]}}</button>
+    <button mat-button [matMenuTriggerFor]="edition">{{variantNames[store.variantId()]}}</button>
     <mat-menu #edition="matMenu">
-        @for (variant of data.variants; track variant) {
+        @for (variant of variants; track variant) {
             <button mat-menu-item (click)="changeVariant(variant)">{{variantNames[variant]}}</button>  
         }             
       </mat-menu>

@@ -1,6 +1,5 @@
 @if(page){
-    <app-header/>
-    <app-test/>
+    <app-header/>    
     @for (section of page.sections; track section) {
         <app-section [name]="section.name" [sectionId]="section.sectionId"></app-section>
     }  
