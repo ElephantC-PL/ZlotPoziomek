@@ -1,8 +1,23 @@
 import { Component, computed, inject, Input, Signal } from '@angular/core';
-import { ApiUrl } from '../../../settings';
+import { API_URL } from '../../../settings';
 import { SectionLayoutComponent } from '../../molecules/section-layout/section-layout.component';
 import { QuillViewComponent } from 'ngx-quill';
-import { ContentStore, SectionValuesToDisplay } from '../../../stores/content.store';
+import { ContentStore } from '../../../stores/content.store';
+import { RichTextValue, ImageValue, FileValue } from '../../../services/db-data.service';
+
+export interface SectionValuesToDisplay {
+  string: string[],
+  richText: RichTextValue[],
+  image: ImageValue[],
+  file: FileValue[]
+}
+
+export const initSectionValuesToDisplay = {
+  string: [],
+  image: [],
+  richText: [],
+  file: []
+}
 
 @Component({
   selector: 'app-section',
@@ -13,17 +28,13 @@ import { ContentStore, SectionValuesToDisplay } from '../../../stores/content.st
 })
 export class SectionComponent {
   readonly store = inject(ContentStore);
-  @Input() name: string = '';
+  @Input() sectionName: string = '';
   @Input({required: true}) sectionId: number = 0;   
-  imgPath: string = `${ApiUrl}/img/`;  
-  
+  imgPath: string = `${API_URL}/img/`;  
 
-  data: Signal<SectionValuesToDisplay> = computed(()=> 
-    this.store.contentValuesToDisplayMap().get(this.sectionId) ?? {
-      string: [],
-      image: [],
-      richText: [],
-      file: []
-    }
-  )  
+  data: Signal<SectionValuesToDisplay> = computed(()=> {    
+    // console.log('this.sectionId', this.sectionId)
+    // console.log('contentValuesToDisplayMap', this.store.contentValuesToDisplayMap())
+    return this.store.contentValuesToDisplayMap().get(this.sectionId) ?? initSectionValuesToDisplay
+  })  
 }

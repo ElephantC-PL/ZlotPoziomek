@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ContentStore } from '../../../stores/content.store';
 
 @Component({
   selector: 'app-loader',
@@ -9,5 +10,5 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './loader.component.scss'
 })
 export class LoaderComponent {
-
+  readonly store = inject(ContentStore);
 }

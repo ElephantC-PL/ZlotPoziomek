@@ -5,16 +5,20 @@ import { HeaderComponent } from './components/organisms/header/header.component'
 import { OnePageComponent } from './components/templates/one-page/one-page.component';
 import { SPECIFIC_EDITION_PAGE } from './components/pages/specific-edition-page';
 import { ContentStore } from './stores/content.store';
+import { LoaderComponent } from "./components/organisms/loader/loader.component";
+import { InfoPopupComponent } from './components/organisms/info-popup/info-popup.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     HeaderComponent,
-    RouterOutlet, 
-    CommonModule, 
-    OnePageComponent
-  ],
+    RouterOutlet,
+    CommonModule,
+    OnePageComponent,
+    LoaderComponent,
+    InfoPopupComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

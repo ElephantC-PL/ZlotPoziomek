@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { VariantNames } from '../../../models/db-data.model';
 import { ContentStore } from '../../../stores/content.store';
-import { VARIANTS } from '../../pages/specific-edition-page';
+import { VARIANT_NAMES, VARIANTS } from '../../pages/specific-edition-page';
 
 @Component({
   selector: 'app-header',
@@ -16,10 +15,10 @@ import { VARIANTS } from '../../pages/specific-edition-page';
 })
 export class HeaderComponent {
   readonly store = inject(ContentStore);
-  variantNames = VariantNames;
+  variantNames = VARIANT_NAMES;
   variants = VARIANTS;
 
-  public changeVariant(variantId: number){    
+  changeVariant(variantId: number){    
     this.store.changeVariant(variantId);    
     this.store.loadContents(variantId);
   }

@@ -1,6 +1,6 @@
 @if(data()){
     <app-section-layout [text]="data().string[3]" [bg]="data().string[2]">
-        <span>{{name}}</span>
+        <span>{{sectionName}}</span>
         @if(data().string[1]){<h2>{{data().string[1]}}</h2>}
         @if(data().richText[4]){<quill-view [content]="data().richText[4]" format="object"></quill-view>}
         @if(data().image[5]){<img [src]="imgPath + data().image[5].fileName" [alt]="data().image[5].alt"/>}
