@@ -1,0 +1,13 @@
+:host {  
+    line-height: 1;   
+    width: 100%;
+    display: block;
+    ::ng-deep .image-container{
+        width: 100%;
+        display: block;
+        img {
+            width: 100% !important;
+            height: auto;
+        }
+    }
+}

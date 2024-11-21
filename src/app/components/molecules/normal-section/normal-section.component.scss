@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.image-column {  
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;     
+    justify-content: center;
+    align-items: center;
+    max-width: 48%;     
+
+    ::ng-deep img {         
+        max-height: 500px;
+        width: auto;
+        height: auto;
+        max-width: 100%; 
+    }
+}
+
+.text-column {    
+    flex-grow: 1;
+    flex-shrink: 1;   
+}
+
+@media (max-width: 768px) {
+    .container {  
+        flex-direction: column;
+    } 
+}

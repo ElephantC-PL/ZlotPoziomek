@@ -1,17 +1,10 @@
 @if(data()){
-    <app-section-layout [text]="data().string[3]" [bg]="data().string[2]">
-        <div class="container">
-            @if(data().image[5]){
-                <div class="image-column">
-                    <img [width]="data().image[5].width" [height]="data().image[5].height" [src]="imgPath + data().image[5].fileName" [alt]="data().image[5].alt"/>
-                </div>                
-            }
-            @if(data().richText[4] || data().string[1]){
-                <div class="text-column" #richText>                   
-                    @if(data().string[1]){<h2>{{data().string[1]}}</h2>}
-                    @if(data().richText[4]){<quill-view [content]="data().richText[4] | quillLinksRedirect" format="object" class="richText"></quill-view>}
-                </div>
-            }
-        </div>
-    </app-section-layout>
+    @switch(sectionType){
+        @case ("Banner") {
+            <app-banner [data]="data()!"/>
+        }
+        @default {
+            <app-normal-section [data]="data()!"/>
+        }
+    }    
 }

@@ -1,10 +1,9 @@
 import { Component, computed, inject, Input, Signal } from '@angular/core';
-import { API_URL } from '../../../settings';
-import { SectionLayoutComponent } from '../../molecules/section-layout/section-layout.component';
-import { QuillViewComponent } from 'ngx-quill';
 import { ContentStore } from '../../../stores/content.store';
 import { RichTextValue, ImageValue, FileValue } from '../../../services/db-data.service';
-import { QuillLinksRedirectPipe } from './quill-links-redirect.pipe';
+import { SectionType } from '../../pages/specific-edition-page';
+import { NormalSectionComponent } from '../../molecules/normal-section/normal-section.component';
+import { BannerComponent } from '../../molecules/banner/banner.component';
 
 export interface SectionValuesToDisplay {
   string: string[],
@@ -23,17 +22,16 @@ export const initSectionValuesToDisplay = {
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [SectionLayoutComponent, QuillViewComponent, QuillLinksRedirectPipe],
+  imports: [ NormalSectionComponent, BannerComponent],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
 export class SectionComponent {
-  readonly store = inject(ContentStore);
-  @Input() sectionName: string = '';
-  @Input({required: true}) sectionId: number = 0;   
-  imgPath: string = `${API_URL}/img/`;   
+  readonly store = inject(ContentStore);  
+  @Input({required: true}) sectionId: number = 0;  
+  @Input() sectionType?: SectionType = SectionType.Normal;  
 
-  data: Signal<SectionValuesToDisplay> = computed(()=> {      
-    return this.store.contentValuesToDisplayMap().get(this.sectionId) ?? initSectionValuesToDisplay
+  data: Signal<SectionValuesToDisplay|undefined> = computed(()=> {      
+    return this.store.contentValuesToDisplayMap().get(this.sectionId)
   })
 }

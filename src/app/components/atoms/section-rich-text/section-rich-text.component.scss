@@ -1,0 +1,23 @@
+::ng-deep{
+    h2, h3 {
+        text-align: center;
+    }
+
+    .ql-align-justify {
+        text-align: justify !important;
+    }
+
+    ol {
+        li[data-list="bullet"] {
+            list-style-type: disc;
+        }
+    }
+    a {
+        color: var(--link);
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }        
+} 
