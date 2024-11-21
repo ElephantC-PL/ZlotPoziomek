@@ -4,6 +4,7 @@ import { SectionLayoutComponent } from '../../molecules/section-layout/section-l
 import { QuillViewComponent } from 'ngx-quill';
 import { ContentStore } from '../../../stores/content.store';
 import { RichTextValue, ImageValue, FileValue } from '../../../services/db-data.service';
+import { QuillLinksRedirectPipe } from './quill-links-redirect.pipe';
 
 export interface SectionValuesToDisplay {
   string: string[],
@@ -22,7 +23,7 @@ export const initSectionValuesToDisplay = {
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [SectionLayoutComponent, QuillViewComponent ],
+  imports: [SectionLayoutComponent, QuillViewComponent, QuillLinksRedirectPipe],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
@@ -30,11 +31,9 @@ export class SectionComponent {
   readonly store = inject(ContentStore);
   @Input() sectionName: string = '';
   @Input({required: true}) sectionId: number = 0;   
-  imgPath: string = `${API_URL}/img/`;  
+  imgPath: string = `${API_URL}/img/`;   
 
-  data: Signal<SectionValuesToDisplay> = computed(()=> {    
-    // console.log('this.sectionId', this.sectionId)
-    // console.log('contentValuesToDisplayMap', this.store.contentValuesToDisplayMap())
+  data: Signal<SectionValuesToDisplay> = computed(()=> {      
     return this.store.contentValuesToDisplayMap().get(this.sectionId) ?? initSectionValuesToDisplay
-  })  
+  })
 }

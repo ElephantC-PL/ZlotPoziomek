@@ -18,7 +18,7 @@ interface ContentState {
 }
 
 const initialState: ContentState = {
-    variantId: 9,
+    variantId: 1,
     dbContents: [],
     isLoading: false,
     preview: false,
@@ -46,7 +46,7 @@ export const ContentStore = signalStore(
                                                         dbContents: DbDataResult.contents,
                                                         dbMessages: DbDataResult.messages,
                                                         isLoading: false
-                                                     }),                                 
+                                                    }),
                             error: (error) => {
                                 const errorMessage = (error as HttpErrorResponse).message
                                 patchState(store, { 

@@ -1,7 +1,6 @@
 import { ContentType } from "../../services/db-data.service"
 
-export interface Section {
-  name: string,
+export interface Section {  
   sectionId: number
 }
 
@@ -9,18 +8,20 @@ export interface Page {
   sections: Section[]
 } 
 
-export const EDITION: Section = {
-  name: "edition",
+export const BANNER: Section = {  
   sectionId: 1,
 }
 
-export const HOW_TO_GET: Section = {
-  name: "how-to-get",
+export const EDITION: Section = {
   sectionId: 2,
 }
 
+export const HOW_TO_GET: Section = { 
+  sectionId: 3,
+}
+
 export const SPECIFIC_EDITION_PAGE = {
-  sections: [EDITION, HOW_TO_GET]
+  sections: [EDITION]
 }
 
 export const VARIANTS = [1,2,3,4,5,6,7,8,9].reverse();

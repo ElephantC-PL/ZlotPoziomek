@@ -1,9 +1,17 @@
 @if(data()){
     <app-section-layout [text]="data().string[3]" [bg]="data().string[2]">
-        <span>{{sectionName}}</span>
-        @if(data().string[1]){<h2>{{data().string[1]}}</h2>}
-        @if(data().richText[4]){<quill-view [content]="data().richText[4]" format="object"></quill-view>}
-        @if(data().image[5]){<img [src]="imgPath + data().image[5].fileName" [alt]="data().image[5].alt"/>}
-        @if(data().file[6]){<a [href]="imgPath + data().file[6].fileName" [download]="data().file[6].fileName">{{data().file[6].linkText}}</a>}
+        <div class="container">
+            @if(data().image[5]){
+                <div class="image-column">
+                    <img [width]="data().image[5].width" [height]="data().image[5].height" [src]="imgPath + data().image[5].fileName" [alt]="data().image[5].alt"/>
+                </div>                
+            }
+            @if(data().richText[4] || data().string[1]){
+                <div class="text-column" #richText>                   
+                    @if(data().string[1]){<h2>{{data().string[1]}}</h2>}
+                    @if(data().richText[4]){<quill-view [content]="data().richText[4] | quillLinksRedirect" format="object" class="richText"></quill-view>}
+                </div>
+            }
+        </div>
     </app-section-layout>
 }
