@@ -1,14 +1,10 @@
-import { Component, effect, Inject, inject, Input, OnInit } from '@angular/core';
+import { Component, effect, Inject, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction, MatSnackBarRef, MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { ContentStore } from '../../../stores/content.store';
-
-export interface Message { 
-  text: string,
-  isError?: boolean
-}
+import { Message, MessagesService } from '../../../services/messages.service';
 
 @Component({
   selector: 'app-info-popup',
@@ -19,19 +15,21 @@ export interface Message {
 })
 export class InfoPopupComponent {
   private _snackBar = inject(MatSnackBar);
-  readonly store = inject(ContentStore); 
+  readonly store = inject(ContentStore);
+  private _messages = inject(MessagesService);
 
   constructor(){
     effect(() => {
-      const loader = this.store.isLoading()
-      const messages = this.store.dbMessages()
-      if(loader === false && messages.length) this.openSnackBar()      
+      const loader = this.store.isLoading()     
+      if(loader === false && this._messages.getMessages.length) {    
+        this.openSnackBar()
+      }      
     });
   }
 
   openSnackBar() {
     this._snackBar.openFromComponent(InfoPopupSnackbarComponent, {
-      duration: 2 * 1000,
+      duration: 10 * 1000,
     });
   }
 }
@@ -43,7 +41,14 @@ export class InfoPopupComponent {
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction, MatIconModule],
 })
-export class InfoPopupSnackbarComponent {
+export class InfoPopupSnackbarComponent implements OnInit {
   readonly store = inject(ContentStore);
+  private _messages = inject(MessagesService);
+  messages: Message[] = [];
   snackBarRef = inject(MatSnackBarRef);
+
+  ngOnInit(): void {   
+    this.messages = this._messages.getMessages;
+    this._messages.resetMessages();
+  }
 }

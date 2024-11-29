@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, combineLatest, Observable, tap, throwError, map } from 'rxjs';
+import { catchError, combineLatest, Observable, tap, throwError, map, timeout } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API_URL } from '../settings';
 import type DeltaType from 'quill-delta';
-import { Message } from '../components/organisms/info-popup/info-popup.component';
+import { Message, MessagesService } from './messages.service';
 
 export enum ContentType {
     SimpleText = 'simple-text',
@@ -43,28 +43,19 @@ export type RichTextValue = DeltaType;
 
 export type ContentValue = (string|RichTextValue|ImageValue|FileValue);
 
-export interface DbDataResult {
-  contents: Content[],
-  messages: Message[]
-}
-
 @Injectable({
   providedIn: 'root'
 })
 export class DbDataService {
-  private _headers = new HttpHeaders({'Content-Type': 'application/json'});  
-  private messages: Message[] = [];
-  private _http = inject(HttpClient); 
+  private _headers = new HttpHeaders({'Content-Type': 'application/json'});
+  private _messages = inject(MessagesService);
+  private _http = inject(HttpClient);
 
-  getAllData(types: ContentType[], sectionIds?: number[], statusIds?: number[], variantIds?: number[]): Observable<DbDataResult> {
-    this.messages = [];
+  getAllData(types: ContentType[], sectionIds?: number[], statusIds?: number[], variantIds?: number[]): Observable<Content[]> {
     const observables: Observable<Content[]|undefined>[] = types?.map(type =>  this._getDataByType(type, sectionIds, statusIds, variantIds));
     return combineLatest(observables).pipe(
-      map(contents => ({
-        contents: contents.filter(x => x !== undefined).flatMap(x => x) as Content[] ?? [], 
-        messages: this.messages
-      }))
-    )    
+      map(contents => (contents.filter(x => x !== undefined).flatMap(x => x) as Content[] ?? [])
+    ))
   }
 
   private _getDataByType(type: ContentType, sectionIds?: number[], statusIds?: number[], variantIds?: number[]): Observable<Content[]|undefined> {
@@ -79,15 +70,16 @@ export class DbDataService {
           ...content,
           type: type
         }))
-      ),    
-      tap(() => {     
-        this.messages.push({text: `Udało się pobrać ${type.toString()} z bazy danych.`});   
+      ),  
+      timeout(5000),  
+      tap(() => {  
+        this._messages.newMessage = {text: `Udało się pobrać ${type.toString()} z bazy danych.`};        
       }),
-      catchError((error) => {     
-        this.messages.push({
+      catchError((error) => {         
+        this._messages.newMessage = {
           text: `Podczas pobierania "${type.toString()}" z bazy danych wystąpił błąd: "${error.message}".`,
           isError: true 
-        });
+        };          
         return throwError(() => error)
       })
     );

@@ -1,5 +1,5 @@
 <div matSnackBarLabel>
-    @for(message of store.dbMessages(); track message){
+    @for(message of messages; track message){
         <div class="message" [ngClass]="{'error': message.isError}">{{message.text}}</div>
     }          
 </div>

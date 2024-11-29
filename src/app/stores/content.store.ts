@@ -5,7 +5,6 @@ import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import { Content, ContentType, DbDataService, FileValue, ImageValue, RichTextValue } from '../services/db-data.service';
 import { tapResponse } from '@ngrx/operators';
 import { SectionValuesToDisplay } from '../components/organisms/section/section.component';
-import { Message } from '../components/organisms/info-popup/info-popup.component';
 import { SECTIONS, TYPES } from '../components/pages/specific-edition-page';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -13,17 +12,15 @@ interface ContentState {
     variantId: number,
     dbContents: Content[],
     isLoading: boolean,
-    preview: boolean,
-    dbMessages: Message[]
+    preview: boolean   
 }
 
 const initialState: ContentState = {
     variantId: 1,
     dbContents: [],
     isLoading: false,
-    preview: false,
-    dbMessages: []
-}
+    preview: false
+}   
 
 type ContentValuesToDisplayMap = Map<number, SectionValuesToDisplay> // key - sectionId
 
@@ -39,19 +36,16 @@ export const ContentStore = signalStore(
                 debounceTime(300),
                 distinctUntilChanged(),
                 tap(() => patchState(store, { isLoading: true })),
-                switchMap((variantId) => {                                        
+                switchMap((variantId) => {          
                     return dbDataService.getAllData(TYPES, SECTIONS, store.preview() ? [2,3] : [3], [variantId]).pipe(
                         tapResponse({
-                            next: (DbDataResult) => patchState(store, {
-                                                        dbContents: DbDataResult.contents,
-                                                        dbMessages: DbDataResult.messages,
-                                                        isLoading: false
-                                                    }),
-                            error: (error) => {
-                                const errorMessage = (error as HttpErrorResponse).message
+                            next: (contents) => patchState(store, {
+                                                    dbContents: contents,                                                       
+                                                    isLoading: false
+                                                }),
+                            error: (error) => {                                
                                 patchState(store, { 
-                                    isLoading: false, 
-                                    dbMessages: [...store.dbMessages(), {text: `Nie udało się pobrać danych, bład: ${errorMessage} `, isError: true }]
+                                    isLoading: false,                                    
                                 });                                
                             },
                         })
@@ -64,10 +58,10 @@ export const ContentStore = signalStore(
         },
         setPreview(newPreview: boolean): void {
             patchState(store, () => ({ preview: newPreview }));
-        },
-        addDbMessage(message: Message): void {
-            patchState(store, ({dbMessages}) => ({ dbMessages: [...dbMessages, message] }));
-        },        
+        },  
+        setLoader(loaderState: boolean): void {
+            patchState(store, () => ({ isLoading: loaderState }));
+        }   
     }))    
 )
 
