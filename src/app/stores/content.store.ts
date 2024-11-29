@@ -4,7 +4,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
 import { Content, ContentType, DbDataService, FileValue, ImageValue, RichTextValue } from '../services/db-data.service';
 import { tapResponse } from '@ngrx/operators';
-import { initSectionValuesToDisplay, SectionValuesToDisplay } from '../components/organisms/section/section.component';
+import { SectionValuesToDisplay } from '../components/organisms/section/section.component';
 import { Message } from '../components/organisms/info-popup/info-popup.component';
 import { SECTIONS, TYPES } from '../components/pages/specific-edition-page';
 import { HttpErrorResponse } from '@angular/common/http';

@@ -2,14 +2,19 @@
     <div class="container">
         @if(data.image[5]){
             <div class="image-column">   
-                <app-section-image [data]="data.image[5]"/>             
+                <app-section-image [data]="data.image[5]"/>                  
             </div>                
-        }
+        }        
         @if(data.richText[4] || data.string[1]){
             <div class="text-column" #richText>                   
                 @if(data.string[1]){<app-section-header [data]="data.string[1]"/>}
                 @if(data.richText[4]){<app-section-rich-text [data]="data.richText[4]"/>}
             </div>
+        }
+        @if(data.string[8]){
+            <div class="html-column">               
+                <app-section-embed-html [data]="data.string[8]"/>  
+            </div>                
         }
     </div>
 </app-section-layout>

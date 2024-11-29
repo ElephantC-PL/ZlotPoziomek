@@ -4,11 +4,18 @@ import { initSectionValuesToDisplay, SectionValuesToDisplay } from '../../organi
 import { SectionHeaderComponent } from "../../atoms/section-header/section-header.component";
 import { SectionImageComponent } from '../../atoms/section-image/section-image.component';
 import { SectionRichTextComponent } from '../../atoms/section-rich-text/section-rich-text.component';
+import { SectionEmbedHtmlComponent } from '../../atoms/section-embed-html/section-embed-html.component';
 
 @Component({
   selector: 'app-normal-section',
   standalone: true,
-  imports: [SectionLayoutComponent, SectionHeaderComponent, SectionImageComponent, SectionRichTextComponent],
+  imports: [
+    SectionLayoutComponent, 
+    SectionHeaderComponent, 
+    SectionImageComponent, 
+    SectionRichTextComponent, 
+    SectionEmbedHtmlComponent
+  ],
   templateUrl: './normal-section.component.html',
   styleUrl: './normal-section.component.scss'
 })

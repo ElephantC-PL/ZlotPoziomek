@@ -15,7 +15,7 @@ export enum SectionType {
 }
 
 export const BANNER: Section = {  
-  sectionId: 1,
+  sectionId: 1, 
   type: SectionType.Banner
 }
 
@@ -28,13 +28,13 @@ export const HOW_TO_GET: Section = {
 }
 
 export const SPECIFIC_EDITION_PAGE = {
-  sections: [BANNER,EDITION]
+  sections: [BANNER,EDITION, HOW_TO_GET]
 }
 
 export const VARIANTS = [1,2,3,4,5,6,7,8,9].reverse();
 
 export const VARIANT_NAMES = ['','2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];  
 
-export const TYPES = [ContentType.SimpleText, ContentType.Color, ContentType.RichText, ContentType.Image, ContentType.File];
+export const TYPES = [ContentType.SimpleText, ContentType.Color, ContentType.RichText, ContentType.Image, ContentType.File, ContentType.EmbedHtml];
 
 export const SECTIONS = [1,2,3,4,5,6,7,8,9,10];

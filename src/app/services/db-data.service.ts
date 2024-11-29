@@ -11,7 +11,7 @@ export enum ContentType {
     Image = 'image',
     RichText = 'rich-text',
     File = 'file',
-    HtmlWidget = 'html-widget',
+    EmbedHtml = 'embed-html',
     Collection = 'collection'
 }
 
