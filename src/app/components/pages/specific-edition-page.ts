@@ -27,6 +27,10 @@ export const HOW_TO_GET: Section = {
   sectionId: 3,
 }
 
+export const ACCOMODATION: Section = { 
+  sectionId: 4,
+}
+
 export const SPECIFIC_EDITION_PAGE = {
   sections: [BANNER,EDITION, HOW_TO_GET]
 }
